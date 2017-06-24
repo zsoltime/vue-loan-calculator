@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vue.js Loan Calculator</title>
+  <meta name="description" content="Check out my loan calculator built with Vue.js during my Vue challenge.">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script type="text/x-template" id="number-field">
+    <div class="form__field-group">
+      <label for="amount" class="form__label">
+        <slot></slot>
+      </label>
+      <input
+        type="number"
+        class="form__field form__field--number"
+        ref="input"
+        :id="name"
+        :step="step"
+        :min="min"
+        :max="max"
+        :value="value"
+        @input="change" />
+      <div class="form__btn-group">
+        <button
+          type="button"
+          class="form__btn form__btn--no-bottom-border"
+          :aria-label="`Increase ${name}`"
+          @click="increment"
+        >
+          <span aria-hidden="true">+</span>
+        </button>
+        <button
+          type="button"
+          class="form__btn form__btn--no-top-border"
+          :aria-label="`Decrease ${name}`"
+          @click="decrement"
+        >
+          <span aria-hidden="true">&ndash;</span>
+        </button>
+      </div>
+    </div>
+  </script>
+  <div class="app" id="app" v-cloak>
+    <h1 class="app__title">Loan Calculator</h1>
+    <form class="form v-cloak--hidden">
+      <number-field
+        name="amount"
+        :min="100"
+        :max="25000"
+        :step="100"
+        v-model="amount"
+      >Amount</number-field>
+      <number-field
+        name="months"
+        :min="6"
+        :max="240"
+        :step="6"
+        v-model="months"
+      >Term length (months)</number-field>
+      <number-field
+        name="APR"
+        :min="0.1"
+        :step="0.1"
+        v-model="apr"
+      >APR interest rate (%)</number-field>
+    </form>
+    <p class="note">* This calculator is for illustrative purposes only</p>
+    <div class="results">
+      <div class="result">
+        <span class="result__label">Monthly repayments:</span>
+        <count-up
+          class-name="result__amount"
+          :end="monthlyRepayments"
+        ></count-up>
+      </div>
+      <div class="result">
+        <span class="result__label">Total amount repayable:</span>
+        <count-up
+          class-name="result__amount"
+          :end="totalAmount"
+        ></count-up>
+      </div>
+      <div class="result">
+        <span class="result__label">Total cost of credit:</span>
+        <count-up
+          class-name="result__amount"
+          :end="totalCost"
+        ></count-up>
+      </div>
+    </div>
+  </div>
+  <footer class="page-footer">
+    <p class="copyright">Made by <a href="https://zsolti.co" title="Zsolt Meszaros">Zsolt Meszaros</a> as part of his <a href="https://github.com/zsoltime/vue-basic-challenge" title="Vue Challenge">Vue Challenge</a> - Day&nbsp;#6</p>
+  </footer>
+  <script src="https://cdn.rawgit.com/inorganik/countUp.js/7934889b/dist/countUp.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
